@@ -12,6 +12,8 @@ ColumnDecimal::ColumnDecimal(size_t precision, size_t scale) : Column(Type::Crea
     } else {
         data_ = ColumnRef(new ColumnInt128());
     }
+
+    scale_ = scale;
 }
 
 void ColumnDecimal::Append(const Int128& value) {
@@ -28,21 +30,29 @@ void ColumnDecimal::Append(const std::string &value) {
     Int128 int_value = 0;
     auto c = value.begin();
     bool sign = true;
+    bool after_dot = false;
+    size_t frac_len = 0;
 
-    while (c != value.end()) {
+    while (c != value.end() && frac_len < scale_) {
         if (*c == '-') {
             sign = false;
             if (c != value.begin()) {
                 break;
             }
         } else if (*c == '.') {
-            // TODO: compare distance with `scale`
+            after_dot = true;
         } else if (*c >= '0' && *c <= '9') {
             int_value = int_value * 10 + (*c - '0');
+            frac_len += after_dot;
         } else {
             // TODO: throw exception on unexpected symbol
         }
         ++c;
+    }
+
+    while (frac_len < scale_) {
+        int_value *= 10;
+        ++frac_len;
     }
 
     if (c != value.end()) {

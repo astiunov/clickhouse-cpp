@@ -33,6 +33,7 @@ private:
     ///  - ColumnInt32
     ///  - ColumnInt64
     ///  - ColumnInt128
+    size_t scale_;
 
     explicit ColumnDecimal(TypeRef type); // for `Slice(…)`
 };
