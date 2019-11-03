@@ -1,5 +1,6 @@
 #include "numeric.h"
 #include "utils.h"
+#include "decimal.h"
 
 namespace clickhouse {
 
@@ -40,6 +41,9 @@ template <typename T>
 void ColumnVector<T>::Append(ColumnRef column) {
     if (auto col = column->As<ColumnVector<T>>()) {
         data_.insert(data_.end(), col->data_.begin(), col->data_.end());
+    } else if (auto col = column->As<ColumnDecimal>()) {
+        auto vec = col->data_->As<ColumnVector<T>>();
+        data_.insert(data_.end(), vec->data_.begin(), vec->data_.end());
     }
 }
 

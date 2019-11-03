@@ -18,6 +18,7 @@ public:
     void Append(const std::string& value);
 
     Int128 At(size_t i) const;
+    ColumnRef data_;
 
 public:
     void Append(ColumnRef column) override { data_->Append(column); }
@@ -32,7 +33,6 @@ private:
     ///  - ColumnInt32
     ///  - ColumnInt64
     ///  - ColumnInt128
-    ColumnRef data_;
 
     explicit ColumnDecimal(TypeRef type); // for `Slice(…)`
 };
