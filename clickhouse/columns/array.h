@@ -42,7 +42,15 @@ public:
 
     void OffsetsIncrease(size_t);
 
-private:
+    ColumnRef GetUnderlying() const {
+        return data_;
+    }
+
+    std::shared_ptr<ColumnUInt64> GetOffsets() const {
+        return offsets_;
+    }
+
+public:
     size_t GetOffset(size_t n) const;
 
     size_t GetSize(size_t n) const;

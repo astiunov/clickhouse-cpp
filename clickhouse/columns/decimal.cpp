@@ -14,6 +14,8 @@ ColumnDecimal::ColumnDecimal(size_t precision, size_t scale)
     } else {
         data_ = std::make_shared<ColumnInt128>();
     }
+    
+    casted_ = data_->As<ColumnInt64>();
 }
 
 ColumnDecimal::ColumnDecimal(TypeRef type)
@@ -82,14 +84,8 @@ void ColumnDecimal::Append(const std::string& value) {
     Append(sign ? int_value : -int_value);
 }
 
-Int128 ColumnDecimal::At(size_t i) const {
-    if (data_->Type()->GetCode() == Type::Int32) {
-        return static_cast<Int128>(data_->As<ColumnInt32>()->At(i));
-    } else if (data_->Type()->GetCode() == Type::Int64) {
-        return static_cast<Int128>(data_->As<ColumnInt64>()->At(i));
-    } else {
-        return data_->As<ColumnInt128>()->At(i);
-    }
+int64_t ColumnDecimal::At(size_t i) const {
+    return casted_->At(i);
 }
 
 void ColumnDecimal::Append(ColumnRef column) {

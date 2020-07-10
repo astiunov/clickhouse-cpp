@@ -1,7 +1,11 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0.2)
 
+set(CMAKE_CXX_STANDARD 17)
+
 INCLUDE (cmake/cpp17.cmake)
 INCLUDE (cmake/subdirs.cmake)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
 
 OPTION(BUILD_BENCHMARK "Build benchmark" OFF)
 OPTION(BUILD_TESTS "Build tests" OFF)

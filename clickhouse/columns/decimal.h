@@ -15,7 +15,7 @@ public:
     void Append(const Int128& value);
     void Append(const std::string& value);
 
-    Int128 At(size_t i) const;
+    int64_t At(size_t i) const;
 
 public:
     void Append(ColumnRef column) override;
@@ -33,6 +33,7 @@ private:
     ///  - ColumnInt64
     ///  - ColumnInt128
     ColumnRef data_;
+    std::shared_ptr<ColumnInt64> casted_;
 
     explicit ColumnDecimal(TypeRef type); // for `Slice(…)`
 };
