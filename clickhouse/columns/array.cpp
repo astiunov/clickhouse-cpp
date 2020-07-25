@@ -10,6 +10,13 @@ ColumnArray::ColumnArray(ColumnRef data)
 {
 }
 
+ColumnArray::ColumnArray(ColumnRef data, std::shared_ptr<ColumnUInt64> offsets)
+    : Column(Type::CreateArray(data->Type()))
+    , data_(data)
+    , offsets_(offsets)
+{
+}
+
 void ColumnArray::AppendAsColumn(ColumnRef array) {
     if (!data_->Type()->IsEqual(array->Type())) {
         throw std::runtime_error(

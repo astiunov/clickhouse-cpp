@@ -10,6 +10,7 @@ namespace clickhouse {
 class ColumnArray : public Column {
 public:
     ColumnArray(ColumnRef data);
+    ColumnArray(ColumnRef data, std::shared_ptr<ColumnUInt64> offsets);
 
     /// Converts input column to array and appends
     /// as one row to the current column.

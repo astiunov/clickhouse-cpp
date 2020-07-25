@@ -24,13 +24,7 @@ ColumnDecimal::ColumnDecimal(TypeRef type)
 }
 
 void ColumnDecimal::Append(const Int128& value) {
-    if (data_->Type()->GetCode() == Type::Int32) {
-        data_->As<ColumnInt32>()->Append(static_cast<ColumnInt32::DataType>(value));
-    } else if (data_->Type()->GetCode() == Type::Int64) {
-        data_->As<ColumnInt64>()->Append(static_cast<ColumnInt64::DataType>(value));
-    } else {
-        data_->As<ColumnInt128>()->Append(static_cast<ColumnInt128::DataType>(value));
-    }
+    casted_->Append(static_cast<ColumnInt64::DataType>(value));
 }
 
 void ColumnDecimal::Append(const std::string& value) {
